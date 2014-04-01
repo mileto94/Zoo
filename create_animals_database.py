@@ -38,9 +38,7 @@ def data_entry_create_zoos(cursor):
 def insert_species_into_table(cursor, species, life_expectancy,
         food_type, gestation, newborn_weight, average_weight,
         weight_age_ratio, food_weight_ratio):
-    insert_query = "insert into animals(species, life_expectancy,
-        food_type, gestation, newborn_weight, average_weight,
-        weight_age_ratio, food_weight_ratio) values(?, ?, ?, ?, ?, ?, ?, ?)"
+    insert_query = "insert into animals(species, life_expectancy, food_type, gestation, newborn_weight, average_weight, weight_age_ratio, food_weight_ratio) values(?, ?, ?, ?, ?, ?, ?, ?)"
     cursor.execute(insert_query,
         (species, life_expectancy, food_type,
         gestation, newborn_weight, average_weight,
@@ -48,12 +46,18 @@ def insert_species_into_table(cursor, species, life_expectancy,
 
 
 def create_database(filename):
+
+    try:
+        open(filename)
+    except IOError:
+
     conn = sqlite3.connect(filename)
     cursor = conn.cursor()
 
     create_animals_table(cursor)
     create_animals_in_zoo_table(cursor)
     create_zoo_table(cursor)
+
 
     animals = [("lion", 15, "carnivore", 3, 2, 200, 7.5, 0.035),
                 ("tiger", 20, "carnivore", 4, 1, 250, 12, 0.06),
