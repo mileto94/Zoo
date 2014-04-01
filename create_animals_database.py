@@ -25,8 +25,8 @@ def insert_species_into_table(cursor, species, life_expectancy,
         weight_age_ratio, food_weight_ratio))
 
 
-def main():
-    conn = sqlite3.connect("animals.db")
+def create_database(filename):
+    conn = sqlite3.connect(filename)
     cursor = conn.cursor()
 
     create_animals_table(cursor)
@@ -48,7 +48,3 @@ def main():
 
     conn.commit()
     conn.close()
-
-
-if __name__ == '__main__':
-    main()
