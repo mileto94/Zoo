@@ -15,6 +15,15 @@ def create_animals_table(cursor):
     cursor.execute(create_query)
 
 
+def create_zoo_table(cursor):
+    cursor.execute("""create table if not exists zoos(zoo_id integer primary key, zoo_name text, animals , capacity int, budget real)""")
+
+
+def create_animals_in_zoo_table(cursor):
+    cursor.execute("""create table if not exists animals_in_zoo_(zoo_id, spieces,
+                      age integer, name text, gender text, weight integer, foreign key species references animals(species), foreign key zoo_id references zoos(zoo_id))""")
+
+
 def insert_species_into_table(cursor, species, life_expectancy,
         food_type, gestation, newborn_weight, average_weight,
         weight_age_ratio, food_weight_ratio):
@@ -29,6 +38,8 @@ def create_database(filename):
     conn = sqlite3.connect(filename)
     cursor = conn.cursor()
 
+    create_animals_table(cursor)
+    create_zoo_table(cursor)
     create_animals_table(cursor)
 
     animals = [("lion", 15, "carnivore", 3, 2, 200, 7.5, 0.035),

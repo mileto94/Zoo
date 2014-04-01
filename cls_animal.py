@@ -12,3 +12,7 @@ class Animal():
 
     def grow(self):
         return self.age + 1
+
+    def give_birth(self):
+        if self.gender == "female" and self.age:
+            pass
