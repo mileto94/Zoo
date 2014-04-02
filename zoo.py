@@ -4,15 +4,16 @@ import sqlite3
 
 class Zoo():
     """docstring for Zoo"""
-    # def __init__(self, name, capacity, budget):
-    def __init__(self, name):
-        self.name = name
-        # self.budget = budget
-        # self.capacity = capacity
-        # self.max_capacity = capacity
-
+    def __init__(self, name, capacity, budget):
+    # def __init__(self, name):
         self.conn = sqlite3.connect("animals.db")
         self.cursor = self.conn.cursor()
+
+        self.name = name
+        self.budget = budget
+        self.capacity = capacity
+        self.max_capacity = capacity
+
 
         self.zoo_id = self.get_zoo_id()
 
@@ -66,12 +67,12 @@ class Zoo():
         # pass
 
 
-def main():
-    sofia_zoo = Zoo("SOFIA ZOO")
-    print(sofia_zoo.get_name())
-    print(sofia_zoo.current_capacity())
-    sofia_zoo.present_animals_in_zoo()
+# def main():
+#     sofia_zoo = Zoo("SOFIA ZOO")
+#     print(sofia_zoo.get_name())
+#     print(sofia_zoo.current_capacity())
+#     sofia_zoo.present_animals_in_zoo()
 
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()
