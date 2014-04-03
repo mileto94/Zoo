@@ -2,43 +2,43 @@ import sqlite3
 
 
 def create_animals_table(cursor):
-    create_query = '''create table if not exists
-        animals(species text primary key,
-                life_expectancy int,
-                food_type text,
-                gestation int,
-                newborn_weight real,
-                average_weight int,
-                weight_age_ratio real,
-                food_weight_ratio real)'''
+    create_query = '''CREATE TABLE IF NOT EXISTS
+                animals(species TEXT PRIMARY KEY,
+                life_expectancy INT,
+                food_type TEXT,
+                gestation INT,
+                newborn_weight REAL,
+                average_weight INT,
+                weight_age_ratio REAL,
+                food_weight_ratio REAL)'''
 
     cursor.execute(create_query)
 
 
 def create_zoo_table(cursor):
-    cursor.execute("""create table if not exists zoos(zoo_id integer primary key, zoo_name text, capacity int, budget real)""")
+    cursor.execute("""CREATE TABLE IF NOT EXISTS zoos(zoo_id INTEGER PRIMARY KEY, zoo_name TEXT, capacity INT, budget REAL)""")
 
 
 def create_animals_in_zoo_table(cursor):
-    cursor.execute("""create table if not exists animals_in_zoo(zoo_id integer, species text,
-                      age integer, name text, gender text, weight integer, foreign key (species) references animals(species), foreign key (zoo_id) references zoos(zoo_id))""")
+    cursor.execute("""CREATE TABLE IF NOT EXISTS animals_in_zoo(zoo_id INT, species TEXT,
+                      age INT, name TEXT, gender TEXT, weight INT, FOREIGN KEY (species) REFERENCES animals(species), FOREIGN KEY (zoo_id) REFERENCES zoos(zoo_id))""")
 
 
 def insert_animals_in_zoo(cursor, zoo_id, species, age, name, gender, weight):
-    insert_query = "insert into animals_in_zoo values(?, ?, ?, ?, ?, ?)"
+    insert_query = "INSERT INTO animals_in_zoo VALUES(?, ?, ?, ?, ?, ?)"
     cursor.execute(insert_query, (zoo_id, species, age, name, gender, weight))
 
 
 def data_entry_create_zoos(cursor):
-    cursor.execute("insert into zoos (zoo_name, capacity, budget) values (?, ?, ?)", ('SOFIA ZOO', 50, 1000))
-    cursor.execute("insert into zoos (zoo_name, capacity, budget) values (?, ?, ?)", ('PAZARDJIK ZOO', 25, 500))
-    cursor.execute("insert into zoos (zoo_name, capacity, budget) values (?, ?, ?)", ('PLEVEN ZOO', 35, 750))
+    cursor.execute("INSERT INTO zoos (zoo_name, capacity, budget) VALUES (?, ?, ?)", ('SOFIA ZOO', 50, 1000))
+    cursor.execute("INSERT INTO zoos (zoo_name, capacity, budget) VALUES (?, ?, ?)", ('PAZARDJIK ZOO', 25, 500))
+    cursor.execute("INSERT INTO zoos (zoo_name, capacity, budget) VALUES (?, ?, ?)", ('PLEVEN ZOO', 35, 750))
 
 
 def insert_species_into_table(cursor, species, life_expectancy,
         food_type, gestation, newborn_weight, average_weight,
         weight_age_ratio, food_weight_ratio):
-    insert_query = "insert into animals(species, life_expectancy, food_type, gestation, newborn_weight, average_weight, weight_age_ratio, food_weight_ratio) values(?, ?, ?, ?, ?, ?, ?, ?)"
+    insert_query = "INSERT OR REPLACE INTO animals(species, life_expectancy, food_type, gestation, newborn_weight, average_weight, weight_age_ratio, food_weight_ratio) VALUES(?, ?, ?, ?, ?, ?, ?, ?)"
     cursor.execute(insert_query,
         (species, life_expectancy, food_type,
         gestation, newborn_weight, average_weight,
@@ -46,11 +46,6 @@ def insert_species_into_table(cursor, species, life_expectancy,
 
 
 def create_database(filename):
-
-    try:
-        open(filename)
-    except IOError:
-
     conn = sqlite3.connect(filename)
     cursor = conn.cursor()
 
@@ -80,7 +75,8 @@ def create_database(filename):
                     (3, "tiger", 3, "Lola", "female", 210),
                     (1, "koala", 1, "Jenny", "female", 12),
                     (3, "red panda", 2, "Emma", "female", 34),
-                    (1, "raccoon", 2, "Jerry", "male", 14)]
+                    (1, "raccoon", 2, "Jerry", "male", 14),
+                    (2, "raccoon", 3, "Jimmy", "male", 12)]
 
     for zoo_animal in zoo_animals:
         insert_animals_in_zoo(cursor, *zoo_animal)
