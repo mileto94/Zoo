@@ -12,11 +12,10 @@ class TestAnimal(unittest.TestCase):
         self.connection = sqlite3.connect("test_animals.db")
         self.pointer = self.connection.cursor()
         self.zoo_an = self.pointer.execute("SELECT * FROM animals_in_zoo").fetchall()
+        self.animal = cls_animal.Animal("raccoon", 2, "Jerry", "male", 14)
 
-    # def test_make_new_animal(self):
-    #     animal = cls_animal.Animal("tiger", 24, "Mandy", "male", 200)
-    #     expected = self.pointer.execute("SELECT name, species FROM animals_in_zoo ").fetchall()
-    #     self.assertIn(expected, self.zoo_an)
+    def test_get_data(self):
+        self.assertEqual(self.zoo_an, self.animal.get_data(self.zoo_an))
 
     def tearDown(self):
         os.remove("test_animals.db")

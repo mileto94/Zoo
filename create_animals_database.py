@@ -29,10 +29,11 @@ def insert_animals_in_zoo(cursor, zoo_id, species, age, name, gender, weight):
     cursor.execute(insert_query, (zoo_id, species, age, name, gender, weight))
 
 
-def data_entry_create_zoos(cursor):
-    cursor.execute("INSERT INTO zoos (zoo_name, capacity, budget) VALUES (?, ?, ?)", ('SOFIA ZOO', 50, 1000))
-    cursor.execute("INSERT INTO zoos (zoo_name, capacity, budget) VALUES (?, ?, ?)", ('PAZARDJIK ZOO', 25, 500))
-    cursor.execute("INSERT INTO zoos (zoo_name, capacity, budget) VALUES (?, ?, ?)", ('PLEVEN ZOO', 35, 750))
+def insert_zoos(cursor, zoo):
+    zoo_name = zoo[0]
+    capacity = zoo[1]
+    budget = zoo[2]
+    cursor.execute("INSERT INTO zoos (zoo_name, capacity, budget) VALUES (?, ?, ?)", (zoo_name, capacity, budget))
 
 
 def insert_species_into_table(cursor, species, life_expectancy,
@@ -81,7 +82,11 @@ def create_database(filename):
     for zoo_animal in zoo_animals:
         insert_animals_in_zoo(cursor, *zoo_animal)
 
-    data_entry_create_zoos(cursor)
+    # data_entry_create_zoos(cursor)
+    zoos = [('SOFIA ZOO', 50, 1000), ('PAZARDJIK ZOO', 25, 500), ('PLEVEN ZOO', 35, 750)]
+
+    for zoo in zoos:
+        insert_zoos(cursor, zoo)
 
     conn.commit()
     conn.close()
